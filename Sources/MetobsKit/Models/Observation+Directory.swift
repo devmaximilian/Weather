@@ -1,5 +1,5 @@
 //
-// Resource.swift
+// Observation+Directory.swift
 //
 // Copyright (c) 2019 Maximilian Wendel
 //
@@ -24,9 +24,8 @@
 
 import Foundation
 
-public struct Resource: Codable {
-    public let geoBox: GeoBox
-    public let key: String
+public struct ObservationDirectory: Codable {
+    public let key: String?
     public let title: String
     public let summary: String
     public let link: [Link]

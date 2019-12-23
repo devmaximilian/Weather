@@ -1,5 +1,5 @@
 //
-// Resource.swift
+// ObservedPeriod.swift
 //
 // Copyright (c) 2019 Maximilian Wendel
 //
@@ -24,10 +24,9 @@
 
 import Foundation
 
-public struct Resource: Codable {
-    public let geoBox: GeoBox
+public struct ObservedPeriod: Codable {
     public let key: String
-    public let title: String
+    public let name: String
     public let summary: String
-    public let link: [Link]
+    public let sampling: String
 }

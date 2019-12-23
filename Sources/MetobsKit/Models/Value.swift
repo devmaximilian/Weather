@@ -1,5 +1,5 @@
 //
-// Resource.swift
+// Value.swift
 //
 // Copyright (c) 2019 Maximilian Wendel
 //
@@ -24,10 +24,7 @@
 
 import Foundation
 
-public struct Resource: Codable {
-    public let geoBox: GeoBox
-    public let key: String
-    public let title: String
-    public let summary: String
-    public let link: [Link]
+public struct Value: Codable {
+    public let value: String
+    public let quality: String
 }
