@@ -1,3 +1,29 @@
+//
+// Utils.swift
+//
+// Copyright (c) 2019 Maximilian Wendel
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the  Software), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED  AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+
+import Foundation
+
 /// A `Future` wrapper for a `Value`
 open class Future<Value> {
     internal var result: Result<Value>? {
@@ -67,4 +93,20 @@ public enum Result<Value> {
 
     /// Provides an `Error`
     case error(Error)
+}
+
+/// An extension to the encodable protocol
+public extension Encodable {
+    /// A method for encodable types that encodes itself
+    func encoded() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+}
+
+/// An extension to data to decode types
+public extension Data {
+    /// A property for data that attempts to decode into the provided type
+    func decoded<T: Decodable>() throws -> T {
+        return try JSONDecoder().decode(T.self, from: self)
+    }
 }

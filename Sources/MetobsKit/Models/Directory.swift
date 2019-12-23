@@ -29,4 +29,12 @@ public struct Directory: Codable {
     public let title: String
     public let summary: String
     public let link: [Link]
+    public let version: [Version]
+
+    public init(title: String, summary: String, link: [Link], version: [Version]) {
+        self.title = title
+        self.summary = summary
+        self.link = link
+        self.version = version
+    }
 }
