@@ -32,129 +32,128 @@ public struct Resource: Codable {
     public let link: [Link]
 }
 
-public extension Resource {
-    public var codes: Link? {
-        return link.filter { (link) -> Bool in
+public extension Resource {
+    var codes: Link? {
+        return self.link.filter { (link) -> Bool in
             link.rel == "codes"
         }.first
     }
-    
-    public var parameter: Link? {
-        return link.filter { (link) -> Bool in
+
+    var parameter: Link? {
+        return self.link.filter { (link) -> Bool in
             link.rel == "parameter"
         }.first
     }
 }
 
 public extension Array where Array.Element == Resource {
-    
     // MARK: Air temperature
-    
-    public var minAirTemperature: Resource? {
+
+    var minAirTemperature: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "26"
+            resource.key == "26"
         }.first
     }
-    
-    public var maxAirTemperature: Resource? {
+
+    var maxAirTemperature: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "27"
+            resource.key == "27"
         }.first
     }
-    
-    public var currentAirTemperature: Resource? {
+
+    var currentAirTemperature: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "1"
+            resource.key == "1"
         }.first
     }
-    
+
     // MARK: Air pressure
-    
-    public var currentAirPressure: Resource? {
+
+    var currentAirPressure: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "9"
+            resource.key == "9"
         }.first
     }
-    
+
     // MARK: Percipitation
-    
-    public var percipitation: Resource? {
+
+    var percipitation: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "17"
+            resource.key == "17"
         }.first
     }
-    
-    public var currentPercipitationIntensity: Resource? {
+
+    var currentPercipitationIntensity: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "15"
+            resource.key == "15"
         }.first
     }
-    
-    public var currentPercipitationVolume: Resource? {
+
+    var currentPercipitationVolume: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "14"
+            resource.key == "14"
         }.first
     }
-    
-    public var percipitationVolume: Resource? {
+
+    var percipitationVolume: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "5"
+            resource.key == "5"
         }.first
     }
-    
+
     // MARK: Weather
-    
-    public var currentWeather: Resource? {
+
+    var currentWeather: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "13"
+            resource.key == "13"
         }.first
     }
-    
+
     // MARK: Humidity
-    
-    public var currentHumidity: Resource? {
+
+    var currentHumidity: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "6"
+            resource.key == "6"
         }.first
     }
-    
+
     // MARK: Sikt
-    
-    public var currentSight: Resource? {
+
+    var currentSight: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "12"
+            resource.key == "12"
         }.first
     }
-    
+
     // MARK: Sunlight
-    
-    public var currentSunlight: Resource? {
+
+    var currentSunlight: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "10"
+            resource.key == "10"
         }.first
     }
-    
+
     // MARK: Clouds
-    
-    public var currentClouds: Resource? {
+
+    var currentClouds: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "16"
+            resource.key == "16"
         }.first
     }
-    
+
     // MARK: Wind speed
-    
-    public var currentWindSpeed: Resource? {
+
+    var currentWindSpeed: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "4"
+            resource.key == "4"
         }.first
     }
-    
+
     // MARK: Wind direction
-    
-    public var currentWindDirection: Resource? {
+
+    var currentWindDirection: Resource? {
         return self.filter { (resource) -> Bool in
-            return resource.key == "3"
+            resource.key == "3"
         }.first
     }
 }
