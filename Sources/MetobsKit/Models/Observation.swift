@@ -24,6 +24,7 @@
 
 import Foundation
 
+/// An object representation of a data-set
 public struct Observation: Codable {
     public let value: [Value]?
     public let parameter: ObservedParameter

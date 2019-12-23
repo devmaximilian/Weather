@@ -24,6 +24,7 @@
 
 import Foundation
 
+/// An object representation of a link
 public struct Link: Codable {
     public let rel: String
     public let type: String

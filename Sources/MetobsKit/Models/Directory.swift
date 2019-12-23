@@ -24,6 +24,7 @@
 
 import Foundation
 
+/// An object representation of the endpoint manifest
 public struct Directory: Codable {
     public let title: String
     public let summary: String
