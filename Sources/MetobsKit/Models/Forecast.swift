@@ -1,5 +1,5 @@
 //
-// Position.swift
+// Forecast.swift
 //
 // Copyright (c) 2019 Maximilian Wendel
 //
@@ -24,8 +24,7 @@
 
 import Foundation
 
-public struct Position: Codable {
-    public let height: Int
-    public let latitude: Double
-    public let longitude: Double
+public struct Forecast: Codable {
+    public let validTime: String
+    public let parameters: [Parameter]
 }

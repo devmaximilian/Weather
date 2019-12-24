@@ -1,5 +1,5 @@
 //
-// Link.swift
+// Geometry.swift
 //
 // Copyright (c) 2019 Maximilian Wendel
 //
@@ -24,9 +24,9 @@
 
 import Foundation
 
-/// An object representation of a link
-public struct Link: Codable {
-    public let rel: String
+public typealias GeometryCoordinate = [Double]
+
+public struct Geometry: Codable {
     public let type: String
-    public let href: String
+    public let coordinates: [GeometryCoordinate]
 }

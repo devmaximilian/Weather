@@ -24,12 +24,9 @@
 
 import Foundation
 
-/// An object representation of a data-set
 public struct Observation: Codable {
-    public let value: [Value]?
-    public let parameter: ObservedParameter
-    public let station: ObservedStation
-    public let period: ObservedPeriod
-    public let position: [Position]
-    public let link: [Link]
+    public let approvedTime: String
+    public let referenceTime: String
+    public let geometry: Geometry
+    public let timeSeries: [Forecast]
 }

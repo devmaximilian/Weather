@@ -25,9 +25,9 @@
 import Foundation
 
 public struct Parameter: Codable {
-    public let key: String
-    public let title: String
-    public let summary: String
-    public let link: [Link]
-    public let station: [Station]
+    public let name: String
+    public let levelType: String
+    public let level: Int
+    public let unit: String
+    public let values: [Double]
 }

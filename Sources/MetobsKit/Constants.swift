@@ -24,11 +24,23 @@
 
 import Foundation
 
-internal struct MetobsKit {
-    public static var endpoint: URL = URL(string: "https://opendata-download-metobs.smhi.se")!
-    public static var directoryPath: URL {
-        return endpoint.appendingPathComponent("api.json")
+extension Double {
+    func rounded(toPrecision precision: Int) -> Double {
+        let multiplier: Double = pow(10, Double(precision))
+        return (self * multiplier).rounded() / multiplier
+    }
+}
+
+internal func buildURL(latitude: Double, longitude: Double) -> Promise<URL> {
+    // Remove decimals exceeding six positions as it will cause a 404 response
+    let values: (lat: Double, lon: Double) = (
+        lat: latitude.rounded(toPrecision: 6),
+        lon: longitude.rounded(toPrecision: 6)
+    )
+
+    guard let url = URL(string: "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/\(values.lon)/lat/\(values.lat)/data.json") else {
+        return Promise<URL>(value: nil, error: URLError(.badURL))
     }
 
-    public static var preferredType: String = "application/json"
+    return Promise<URL>(value: url)
 }

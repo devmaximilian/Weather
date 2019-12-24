@@ -1,5 +1,5 @@
 //
-// ObservationService.swift
+// Service.swift
 //
 // Copyright (c) 2019 Maximilian Wendel
 //
@@ -24,20 +24,11 @@
 
 import Foundation
 
-public class ObservationService {
-    private var version: DirectoryVersion
-    private var baseURL: URL
-    private var networkService: URLSession = URLSession.shared
+public class ForecastService: NSObject {
+    private func request<Value: Decodable>(url: URL) -> Promise<Value> {
+        let promise = Promise<Value>()
 
-    public init(version: DirectoryVersion, baseURL: URL? = nil) {
-        self.version = version
-        self.baseURL = baseURL ?? MetobsKit.endpoint
-    }
-
-    private func request<T: Decodable>(url: URL) -> Promise<T> {
-        let promise = Promise<T>()
-
-        self.networkService.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
 
             // Make sure request did not result in error
             if let error = error {
@@ -59,7 +50,7 @@ public class ObservationService {
 
             // Attempt to decode data
             do {
-                let value: T = try data.decoded()
+                let value: Value = try data.decoded()
                 return promise.resolve(with: value)
             } catch {
                 return promise.reject(with: error)
@@ -69,15 +60,28 @@ public class ObservationService {
         return promise
     }
 
-    public func getDirectory() -> Promise<Directory> {
-        let promise: Promise<Directory> = self.request(url: self.baseURL.appendingPathComponent("api.json"))
+    public func get(latitude: Double, longitude: Double) -> Promise<Observation> {
+        let observationPromise: Promise<Observation> = Promise<Observation>()
 
-        return promise
-    }
+        let urlPromise = buildURL(latitude: latitude, longitude: longitude)
 
-    public func getResourceDirectory() -> Promise<ResourceDirectory> {
-        let promise: Promise<ResourceDirectory> = self.request(url: self.baseURL.appendingPathComponent("api/version/\(self.version.string).json"))
+        urlPromise.observe { urlResult in
+            switch urlResult {
+            case let .value(value):
+                let networkPromise: Promise<Observation> = self.request(url: value)
+                networkPromise.observe { networkResult in
+                    switch networkResult {
+                    case let .value(value):
+                        observationPromise.resolve(with: value)
+                    case let .error(error):
+                        observationPromise.reject(with: error)
+                    }
+                }
+            case let .error(error):
+                observationPromise.reject(with: error)
+            }
+        }
 
-        return promise
+        return observationPromise
     }
 }
