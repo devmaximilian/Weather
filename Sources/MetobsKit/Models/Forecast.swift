@@ -24,7 +24,11 @@
 
 import Foundation
 
+/// A `Forecast` is a collection of `Value`s for a set of `Parameter`s
 public struct Forecast: Codable {
+    /// A timestamp for when the `Forecast` is valid
     public let validTime: String
-    public let parameters: [Parameter]
+
+    /// An array of `Value` instances
+    public let parameters: [Value]
 }

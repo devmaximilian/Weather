@@ -1,5 +1,5 @@
 //
-// Observation.swift
+// Value.swift
 //
 // Copyright (c) 2019 Maximilian Wendel
 //
@@ -24,17 +24,20 @@
 
 import Foundation
 
-/// An `Observation` is a collection of `Forecast` instances
-public struct Observation: Codable {
-    /// A timestamp for when the `Forecast` was approved
-    public let approvedTime: String
+/// A `Value` value representation for a `Forecast` parameter
+public struct Value: Codable {
+    /// A `Parameter` type representing the underlying value's type
+    public let name: Parameter
 
-    /// A timestamp for when the `Forecast` was created or updated
-    public let referenceTime: String
+    /// A `Level` representing the measurement's reference distance
+    public let levelType: Level
 
-    /// A `Geometry` represenation for where the `Forecast` is valid
-    public let geometry: Geometry
+    /// The distance above the `Level`
+    public let level: Int
 
-    /// An array of `Forecast` instances that reflect the overall `Forecast` over time
-    public let timeSeries: [Forecast]
+    /// The unit the value can be measured in
+    public let unit: String
+
+    /// An array of raw parameter values
+    public let values: [Double]
 }

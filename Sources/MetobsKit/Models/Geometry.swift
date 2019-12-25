@@ -24,9 +24,14 @@
 
 import Foundation
 
+/// A typealias for an array of `Double`
 public typealias GeometryCoordinate = [Double]
 
+/// A `Geometry` representation
 public struct Geometry: Codable {
+    /// The type of `Geometry`
     public let type: String
+
+    /// A number of `GeometryCoordinates` that represent the `Geometry` for the given type
     public let coordinates: [GeometryCoordinate]
 }
