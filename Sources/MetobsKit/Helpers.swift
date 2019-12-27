@@ -1,5 +1,5 @@
 //
-// Constants.swift
+// Helpers.swift
 //
 // Copyright (c) 2019 Maximilian Wendel
 //
