@@ -22,8 +22,6 @@
 // SOFTWARE.
 //
 
-import Foundation
-
 /// A `Parameter` type
 /// - Note: See https://opendata.smhi.se/apidocs/metfcst/parameters.html
 public enum Parameter: String {
@@ -147,7 +145,7 @@ extension Parameter: Codable {
         }
     }
 
-    // MARK: Public methods
+    // MARK: Public functions
 
     /// Encode `Parameter` using `Encoder`
     public func encode(to encoder: Encoder) throws {

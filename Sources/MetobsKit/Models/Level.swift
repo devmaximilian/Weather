@@ -22,8 +22,6 @@
 // SOFTWARE.
 //
 
-import Foundation
-
 /// A `Level` representing the measurement's base-level
 public enum Level: String {
     /// Above sea level

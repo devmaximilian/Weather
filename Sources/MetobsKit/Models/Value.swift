@@ -22,8 +22,6 @@
 // SOFTWARE.
 //
 
-import Foundation
-
 /// A `Value` value representation for a `Forecast` parameter
 public struct Value: Codable {
     /// A `Parameter` type representing the underlying value's type
@@ -40,4 +38,14 @@ public struct Value: Codable {
 
     /// An array of raw parameter values
     public let values: [Double]
+
+    /// The first value of the raw parameter values
+    public var value: Double {
+        return self.values.first ?? 0
+    }
+
+    /// Unknown `Value`
+    public static var unknown: Value {
+        return .init(name: .unknown, levelType: .unknownLevel, level: 0, unit: "", values: [])
+    }
 }

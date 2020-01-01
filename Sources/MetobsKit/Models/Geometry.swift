@@ -22,8 +22,6 @@
 // SOFTWARE.
 //
 
-import Foundation
-
 /// A typealias for an array of `Double`
 public typealias GeometryCoordinate = [Double]
 

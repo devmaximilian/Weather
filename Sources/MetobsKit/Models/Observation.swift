@@ -22,8 +22,6 @@
 // SOFTWARE.
 //
 
-import Foundation
-
 /// An `Observation` is a collection of `Forecast` instances
 public struct Observation: Codable {
     /// A timestamp for when the `Forecast` was approved
@@ -37,4 +35,9 @@ public struct Observation: Codable {
 
     /// An array of `Forecast` instances that reflect the overall `Forecast` over time
     public let timeSeries: [Forecast]
+
+    /// The current `Forecast`
+    public var current: Forecast? {
+        return self.timeSeries.first
+    }
 }

@@ -22,8 +22,6 @@
 // SOFTWARE.
 //
 
-import Foundation
-
 /// A `Future` wrapper for a `Value`
 open class Future<Value> {
     internal var result: Result<Value>? {
@@ -108,5 +106,16 @@ public extension Data {
     /// A property for data that attempts to decode into the provided type
     func decoded<T: Decodable>() throws -> T {
         return try JSONDecoder().decode(T.self, from: self)
+    }
+}
+
+/// An extension to add the rounded method
+extension Double {
+    /// Rounds the `Double` to a specified precision-level (number of decimals)
+    /// - Note: This method is present as the forecast service only accepts a maximum of six decimals
+    /// - Parameter precision: The precision-level to use
+    func rounded(toPrecision precision: Int) -> Double {
+        let multiplier: Double = pow(10, Double(precision))
+        return (self * multiplier).rounded() / multiplier
     }
 }
