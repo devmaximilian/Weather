@@ -22,7 +22,7 @@ targets: [
 ...
 ```
 
-Note that this is just a simple example demonstrating how the package can be used.
+Note that this is just a simple example demonstrating how the library can be used.
 
 ```swift
 /// Get an instance of the weather forecast service
