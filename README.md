@@ -2,8 +2,25 @@
 
 This package is a wrapper for the PMP3g API provided by [SMHI](https://smhi.se).
 
-
 ### Usage
+
+Add MetobsKit to your `Package.swift` manifest.
+
+```swift
+...
+/// Append the package to the list of dependencies
+dependencies: [
+    .package(url: "https://github.com/devmaximilian/MetobsKit.git", from: "0.3.0")
+],
+
+/// Append the library to the list of target dependencies
+targets: [
+    .target(
+        name: "MyProject",
+        dependencies: ["MetobsKit"])
+]
+...
+```
 
 Note that this is just a simple example demonstrating how the package can be used.
 
@@ -20,10 +37,10 @@ service.get(latitude: 59.3258414, longitude: 17.7018733)
             guard let forecast = observation.current else {
                 return
             }
-            
+
             /// Get the air temperature
             let temperature = forecast.get(parameter: .airTemperature)
-            
+
             /// Use the air temperature in some way
         case let .error(error):
             /// This error should be handled in a real use-case
