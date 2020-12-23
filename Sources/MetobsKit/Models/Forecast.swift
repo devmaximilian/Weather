@@ -37,4 +37,10 @@ public struct Forecast: Codable {
             value.name == parameter
         } ?? .unknown
     }
+    
+    public subscript(parameter: Parameter) -> Value {
+        return self.parameters.first { (value) -> Bool in
+            value.name == parameter
+        } ?? .unknown
+    }
 }
