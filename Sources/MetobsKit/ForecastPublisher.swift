@@ -63,6 +63,10 @@ public class ForecastPublisher: Publisher {
         self.longitude = longitude
     }
     
+    // TODO: Convenience initializers
+    // - CLLocationCoordinate2D
+    // - Current location
+    
     /// Attaches the specified subscriber to this publisher.
     ///
     /// Implementations of ``Publisher`` must implement this method.

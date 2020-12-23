@@ -25,27 +25,22 @@ targets: [
 Note that this is just a simple example demonstrating how the library can be used.
 
 ```swift
-/// Get an instance of the weather forecast service
-let service = ForecastService.shared
+var cancellables: [String: AnyCancellable] = [:]
 
 /// Request the current weather forecast for Stockholm
-service.get(latitude: 59.3258414, longitude: 17.7018733)
-    .observe { result in
-        switch result {
-        case let .value(observation):
-            /// Use the current forecast
-            guard let forecast = observation.current else {
-                return
-            }
+let forecastPublisher = ForecastPublisher(latitude: 59.3258414, longitude: 17.7018733)
 
-            /// Get the air temperature
-            let temperature = forecast.get(parameter: .airTemperature)
-
-            /// Use the air temperature in some way
-        case let .error(error):
-            /// This error should be handled in a real use-case
-            fatalError("Failed to get forecast!")
-        }
+cancellables["forecast-request"] = forecastPublisher
+    .assertNoFailure()
+    .sink { observation in
+        /// Use the current forecast
+        guard let forecast = observation.current else { return }
+        
+        /// Get the air temperature
+        let temperature = forecast[.airTemperature]
+        
+        /// Use the air temperature in some way
+        print("It is currently \(temperature)°C")
     }
 ```
 
