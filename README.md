@@ -10,7 +10,7 @@ Add MetobsKit to your `Package.swift` manifest.
 ...
 /// Append the package to the list of dependencies
 dependencies: [
-    .package(url: "https://github.com/devmaximilian/MetobsKit.git", from: "0.3.0")
+    .package(url: "https://github.com/devmaximilian/MetobsKit.git", from: "0.4.0")
 ],
 
 /// Append the library to the list of target dependencies
