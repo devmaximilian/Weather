@@ -1,23 +1,23 @@
-# MetobsKit
+# Forecast
 
 This package is a wrapper for the PMP3g API provided by [SMHI](https://smhi.se).
 
 ### Usage
 
-Add MetobsKit to your `Package.swift` manifest.
+Add Forecast to your `Package.swift` manifest.
 
 ```swift
 ...
 /// Append the package to the list of dependencies
 dependencies: [
-    .package(url: "https://github.com/devmaximilian/MetobsKit.git", from: "0.4.0")
+    .package(url: "https://github.com/devmaximilian/Forecast.git", from: "0.4.0")
 ],
 
 /// Append the library to the list of target dependencies
 targets: [
     .target(
         name: "MyProject",
-        dependencies: ["MetobsKit"])
+        dependencies: ["Forecast"])
 ]
 ...
 ```

@@ -24,6 +24,7 @@
 
 import struct Foundation.Date
 
+
 /// An `Observation` is a collection of `Forecast` instances
 public struct Observation: Codable {
     /// A timestamp for when the `Forecast` was approved
