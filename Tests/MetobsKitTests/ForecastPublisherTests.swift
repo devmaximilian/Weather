@@ -15,7 +15,7 @@ class ForecastPublisherTests: XCTestCase {
                 guard case .failure(let error) = completion else {
                     return
                 }
-                XCTFail(error.localizedDescription)
+                XCTFail(error.localizedDescription)p
                 returnForecastObservation.fulfill()
             }, receiveValue: { observation in
                 returnForecastObservation.fulfill()

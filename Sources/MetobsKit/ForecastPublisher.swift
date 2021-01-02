@@ -35,6 +35,10 @@ import class Combine.PassthroughSubject
 import class Combine.AnyCancellable
 import struct Combine.AnyPublisher
 import enum Combine.Subscribers
+#if canImport(CoreLocation)
+import struct CoreLocation.CLLocationCoordinate2D
+import class CoreLocation.CLLocation
+#endif
 
 
 /// The service endpoint to send requests to
@@ -63,9 +67,25 @@ public class ForecastPublisher: Publisher {
         self.longitude = longitude
     }
     
-    // TODO: Convenience initializers
-    // - CLLocationCoordinate2D
-    // - Current location
+    #if canImport(CoreLocation)
+    /// Get the weather forecast `Observation` for a specific set of coordinates
+    /// - Note: See https://www.smhi.se/data/utforskaren-oppna-data/meteorologisk-prognosmodell-pmp3g-2-8-km-upplosning-api
+    ///         for information about limitations (such as coordinate limitations)
+    /// - Parameters:
+    ///   - coordinate: An instance of `CLLocationCoordinate2D`
+    public convenience init(coordinate: CLLocationCoordinate2D) {
+        self.init(latitude: coordinate.latitude, longitude: coordinate.longitude)
+    }
+    
+    /// Get the weather forecast `Observation` for a specific set of coordinates
+    /// - Note: See https://www.smhi.se/data/utforskaren-oppna-data/meteorologisk-prognosmodell-pmp3g-2-8-km-upplosning-api
+    ///         for information about limitations (such as coordinate limitations)
+    /// - Parameters:
+    ///   - location: An instance of `CLLocation`
+    public convenience init(location: CLLocation) {
+        self.init(coordinate: location.coordinate)
+    }
+    #endif
     
     /// Attaches the specified subscriber to this publisher.
     ///
