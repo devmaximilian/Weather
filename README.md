@@ -10,7 +10,7 @@ Add Forecast to your `Package.swift` manifest.
 ...
 /// Append the package to the list of dependencies
 dependencies: [
-    .package(url: "https://github.com/devmaximilian/Forecast.git", from: "0.4.0")
+    .package(url: "https://github.com/devmaximilian/Forecast.git", from: "1.0.0")
 ],
 
 /// Append the library to the list of target dependencies
