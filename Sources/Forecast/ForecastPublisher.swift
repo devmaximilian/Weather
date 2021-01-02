@@ -1,5 +1,5 @@
 //
-// Service.swift
+// ForecastPublisher.swift
 //
 // Copyright (c) 2019 Maximilian Wendel
 //
@@ -29,6 +29,7 @@ import class Foundation.URLSession
 import struct Foundation.URLError
 import struct Foundation.Data
 import struct Foundation.URL
+import func Foundation.pow
 import protocol Combine.Publisher
 import protocol Combine.Subscriber
 import class Combine.PassthroughSubject
@@ -171,5 +172,16 @@ extension JSONDecoder {
         self.init()
         
         self.dateDecodingStrategy = dateDecodingStrategy
+    }
+}
+
+/// An extension to add the rounded method
+extension Double {
+    /// Rounds the `Double` to a specified precision-level (number of decimals)
+    /// - Note: This method is present as the forecast service only accepts a maximum of six decimals
+    /// - Parameter precision: The precision-level to use
+    fileprivate func rounded(toPrecision precision: Int) -> Double {
+        let multiplier: Double = pow(10, Double(precision))
+        return (self * multiplier).rounded() / multiplier
     }
 }

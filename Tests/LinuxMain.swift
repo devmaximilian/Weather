@@ -1,7 +1,7 @@
 import XCTest
 
-import MetobsKitTests
+import ForecastTests
 
 var tests = [XCTestCaseEntry]()
-tests += MetobsKitTests.allTests()
+tests += ForecastTests.allTests()
 XCTMain(tests)
