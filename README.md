@@ -34,7 +34,7 @@ cancellables["forecast-request"] = forecastPublisher
     .assertNoFailure()
     .sink { observation in
         /// Use the current forecast
-        guard let forecast = observation.current else { return }
+        guard let forecast = observation.timeSeries.current else { return }
         
         /// Get the air temperature
         let temperature = forecast[.airTemperature]

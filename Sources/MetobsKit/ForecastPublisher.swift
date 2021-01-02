@@ -120,7 +120,7 @@ extension ForecastPublisher {
             .map { (data: Data, response: URLResponse) -> Data in
                 return data
             }
-            .decode(type: Output.self, decoder: JSONDecoder())
+            .decode(type: Output.self, decoder: JSONDecoder(dateDecodingStrategy: .iso8601))
             .eraseToAnyPublisher()
     }
     
@@ -141,5 +141,15 @@ extension ForecastPublisher {
         
         return URL(string: stringURL)
             .unsafelyUnwrapped
+    }
+}
+
+// MARK: Extensions
+
+extension JSONDecoder {
+    fileprivate convenience init(dateDecodingStrategy: JSONDecoder.DateDecodingStrategy) {
+        self.init()
+        
+        self.dateDecodingStrategy = dateDecodingStrategy
     }
 }

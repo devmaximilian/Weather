@@ -16,6 +16,7 @@ class ForecastPublisherTests: XCTestCase {
                     return
                 }
                 XCTFail(error.localizedDescription)
+                returnForecastObservation.fulfill()
             }, receiveValue: { observation in
                 returnForecastObservation.fulfill()
             })
