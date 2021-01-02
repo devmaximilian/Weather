@@ -22,10 +22,12 @@
 // SOFTWARE.
 //
 
+import struct Foundation.Date
+
 /// A `Forecast` is a collection of `Value`s for a set of `Parameter`s
 public struct Forecast: Codable {
     /// A timestamp for when the `Forecast` is valid
-    public let validTime: String
+    public let validTime: Date
 
     /// An array of `Value` instances
     public let parameters: [Value]
@@ -33,6 +35,12 @@ public struct Forecast: Codable {
     /// Get `Value` for a `Parameter`
     /// - Parameter parameter: The `Parameter` to get `Value` for
     public func get(parameter: Parameter) -> Value {
+        return self.parameters.first { (value) -> Bool in
+            value.name == parameter
+        } ?? .unknown
+    }
+    
+    public subscript(parameter: Parameter) -> Value {
         return self.parameters.first { (value) -> Bool in
             value.name == parameter
         } ?? .unknown
