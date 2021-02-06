@@ -23,138 +23,80 @@
 //
 
 /// A `Parameter` type
-/// - Note: See https://opendata.smhi.se/apidocs/metfcst/parameters.html
-public enum Parameter: String {
+///
+/// - Note: More about parameters can be found here: https://opendata.smhi.se/apidocs/metfcst/parameters.html
+public enum Parameter: String, Decodable {
     /// Air pressure
     case airPressure = "msl"
 
     /// Air temperature
-    case airTemperature
+    case airTemperature = "t"
 
     /// Horizontal visibility
-    case visibility
+    case visibility = "visibility"
 
     /// Wind direction
-    case windDirection
+    case windDirection = "wd"
 
     /// Wind speed
-    case windSpeed
+    case windSpeed = "ws"
 
     /// Relative humidity
-    case relativeHumidity
+    case relativeHumidity = "r"
 
     /// Thunder probability
-    case thunderProbability
+    case thunderProbability = "tstm"
 
     /// Mean value of total cloud cover
-    case cloudCoverTotal
+    case cloudCoverTotal = "tcc_mean"
 
     /// Mean value of low level cloud cover
-    case cloudCoverLow
+    case cloudCoverLow = "lcc_mean"
 
     /// Mean value of medium level cloud cover
-    case cloudCoverMedium
+    case cloudCoverMedium = "mcc_mean"
 
     /// Mean value of high level cloud cover
-    case cloudCoverHigh
+    case cloudCoverHigh = "hcc_mean"
 
     /// Wind gust speed
-    case windGustSpeed
+    case windGustSpeed = "gust"
 
     /// Minimum precipitation intensity
-    case precipitationIntensityMin
+    case precipitationIntensityMin = "pmin"
 
     /// Maximum precipitation intensity
-    case precipitationIntensityMax
+    case precipitationIntensityMax = "pmax"
 
     /// Percent of precipitation in frozen form
-    case frozenPrecipitation
+    case frozenPrecipitation = "spp"
 
     /// Precipitation category
-    case precipitationCategory
+    case precipitationCategory = "pcat"
 
     /// Mean precipitation intensity
-    case precipitationIntensityMean
+    case precipitationIntensityMean = "pmean"
 
     /// Median precipitation intensity
-    case precipitationIntensityMedian
+    case precipitationIntensityMedian = "pmedian"
 
     /// Weather symbol
-    case weatherSymbol
+    case weatherSymbol = "wsymb2"
 
     /// Unknown parameter
-    case unknown
+    case unknown = ""
 }
 
 /// An extension adding `Codable` protocol conformance to `Parameter`
-extension Parameter: Codable {
-    // MARK: Initializer
-
+extension Parameter {
     /// Initialize a new `Parameter` using `Decoder`
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
 
-        /// Attempt to decode received value
-        guard let value = try? container.decode(String.self) else {
+        guard let value = try? container.decode(Parameter.self) else {
             self = .unknown
             return
         }
-
-        /// Map raw value to enum representation
-        switch value.lowercased() {
-        case "msl":
-            self = .airPressure
-        case "t":
-            self = .airTemperature
-        case "vis":
-            self = .visibility
-        case "wd":
-            self = .windDirection
-        case "ws":
-            self = .windSpeed
-        case "r":
-            self = .relativeHumidity
-        case "tstm":
-            self = .thunderProbability
-        case "tcc_mean":
-            self = .cloudCoverTotal
-        case "lcc_mean":
-            self = .cloudCoverLow
-        case "mcc_mean":
-            self = .cloudCoverMedium
-        case "hcc_mean":
-            self = .cloudCoverHigh
-        case "gust":
-            self = .windGustSpeed
-        case "pmin":
-            self = .precipitationIntensityMin
-        case "pmax":
-            self = .precipitationIntensityMax
-        case "spp":
-            self = .frozenPrecipitation
-        case "pcat":
-            self = .precipitationCategory
-        case "pmean":
-            self = .precipitationIntensityMean
-        case "pmedian":
-            self = .precipitationIntensityMedian
-        case "wsymb2":
-            self = .weatherSymbol
-        default:
-            self = .unknown
-        }
-    }
-
-    // MARK: Public functions
-
-    /// Encode `Parameter` using `Encoder`
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-
-        do {
-            try container.encode(self.rawValue)
-        } catch {
-            try container.encode("unknown")
-        }
+        self = value
     }
 }

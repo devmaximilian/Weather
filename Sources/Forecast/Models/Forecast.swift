@@ -26,7 +26,7 @@ import struct Foundation.Date
 
 
 /// A `Forecast` is a collection of `Value`s for a set of `Parameter`s
-public struct Forecast: Codable {
+public struct Forecast: Decodable {
     /// A timestamp for when the `Forecast` is valid
     public let validTime: Date
 

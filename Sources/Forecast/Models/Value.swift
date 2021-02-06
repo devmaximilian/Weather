@@ -23,7 +23,7 @@
 //
 
 /// A `Value` value representation for a `Forecast` parameter
-public struct Value: Codable {
+public struct Value: Decodable {
     /// A `Parameter` type representing the underlying value's type
     public let name: Parameter
 
