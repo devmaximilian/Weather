@@ -93,7 +93,7 @@ extension Parameter {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
 
-        guard let value = try? container.decode(Parameter.self) else {
+        guard let value = try? Parameter(rawValue: container.decode(String.self)) else {
             self = .unknown
             return
         }

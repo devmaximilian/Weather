@@ -41,7 +41,7 @@ extension Level {
         let container = try decoder.singleValueContainer()
 
         /// Attempt to decode received value
-        guard let value = try? container.decode(Level.self) else {
+        guard let value = try? Level(rawValue: container.decode(String.self)) else {
             self = .unknown
             return
         }
