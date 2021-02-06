@@ -23,52 +23,38 @@
 //
 
 /// A `Level` representing the measurement's base-level
-public enum Level: String {
+public enum Level: String, Decodable {
     /// Above sea level
-    case seaLevel = "hmsl"
+    case sea = "hmsl"
 
     /// Above ground level
-    case groundLevel = "hl"
+    case ground = "hl"
 
     /// Above unknown level
-    case unknownLevel
+    case unknown = ""
 }
 
-/// An extension adding `Codable` protocol conformance to `Level`
-extension Level: Codable {
-    // MARK: Initializer
-
+/// An extension adding `Decodable` protocol conformance to `Level`
+extension Level {
     /// Initialize a new `Level` using `Decoder`
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
 
         /// Attempt to decode received value
-        guard let value = try? container.decode(String.self) else {
-            self = .unknownLevel
+        guard let value = try? container.decode(Level.self) else {
+            self = .unknown
             return
         }
-
-        /// Map raw value to enum representation
-        switch value.lowercased() {
-        case "hmsl":
-            self = .seaLevel
-        case "hl":
-            self = .groundLevel
-        default:
-            self = .unknownLevel
-        }
+        self = value
     }
-
-    // MARK: Public methods
 
     /// Encode `Level` using `Encoder`
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
 
-        do {
-            try container.encode(self.rawValue)
-        } catch {
-            try container.encode("unknown")
+        guard self != .unknown else {
+            return
         }
+        try container.encode(self.rawValue)
     }
 }

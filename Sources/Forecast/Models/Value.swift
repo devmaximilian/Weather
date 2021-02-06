@@ -48,6 +48,6 @@ extension Value {
     
     /// Unknown `Value`
     public static var unknown: Value {
-        return .init(name: .unknown, levelType: .unknownLevel, level: 0, unit: "", values: [])
+        return .init(name: .unknown, levelType: .unknown, level: 0, unit: "", values: [])
     }
 }
