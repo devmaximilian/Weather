@@ -47,14 +47,4 @@ extension Level {
         }
         self = value
     }
-
-    /// Encode `Level` using `Encoder`
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-
-        guard self != .unknown else {
-            return
-        }
-        try container.encode(self.rawValue)
-    }
 }
