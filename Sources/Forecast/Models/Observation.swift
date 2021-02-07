@@ -28,22 +28,22 @@ import struct Foundation.Date
 /// An `Observation` is a collection of `Forecast` instances
 public struct Observation: Decodable {
     /// A timestamp for when the `Forecast` was approved
-    public let approvedTime: Date
+    private let approvedTime: Date
 
     /// A timestamp for when the `Forecast` was created or updated
-    public let referenceTime: Date
+    private let referenceTime: Date
 
     /// A `Geometry` represenation for where the `Forecast` is valid
-    public let geometry: Geometry
+    private let geometry: Geometry
 
     /// An array of `Forecast` instances that reflect the overall `Forecast` over time
-    public let timeSeries: [Forecast]
+    private let timeSeries: [Forecast]
 }
 
 /// An extension to house convenience attributes
 extension Observation {
     /// - Returns: Whether or not the forecast is valid for the current date
-    public var relevant: Bool {
+    public var isRelevant: Bool {
         let now = Date()
         return self.timeSeries.contains { forecast -> Bool in
             forecast.validTime > now
@@ -51,21 +51,12 @@ extension Observation {
     }
 }
 
-// MARK: Extension to get current forecast
-
-extension Array where Element == Forecast {
+extension Observation {
     /// - Returns: The current `Forecast`
-    public var current: Forecast? {
-        let now = Date()
-        return self.sorted(by: { $0.validTime < $1.validTime })
+    public func get(by date: Date) -> Forecast? {
+        return self.timeSeries.sorted(by: { $0.validTime < $1.validTime })
             .first { forecast -> Bool in
-                forecast.validTime >= now
+                forecast.validTime >= date
             }
-    }
-
-    /// - Returns: The current `Forecast`
-    /// - Warning: This attribute is unsafe, use `current` instead.
-    public var unsafeCurrent: Forecast {
-        return self.current.unsafelyUnwrapped
     }
 }

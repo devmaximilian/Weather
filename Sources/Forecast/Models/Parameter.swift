@@ -1,5 +1,5 @@
 //
-// Parameter.swift
+// Value.swift
 //
 // Copyright (c) 2019 Maximilian Wendel
 //
@@ -22,81 +22,29 @@
 // SOFTWARE.
 //
 
-/// A `Parameter` type
-///
+/// A `Paramter` value representation for a `Forecast` parameter
+/// 
 /// - Note: More about parameters can be found here: https://opendata.smhi.se/apidocs/metfcst/parameters.html
-public enum Parameter: String, Decodable {
-    /// Air pressure
-    case airPressure = "msl"
+public struct Parameter: Decodable {
+    /// A `Parameter` type representing the underlying value's type
+    public let name: Name
 
-    /// Air temperature
-    case airTemperature = "t"
+    /// A `Level` representing the measurement's reference distance
+    public let levelType: Level
 
-    /// Horizontal visibility
-    case visibility = "visibility"
+    /// The distance above the `Level`
+    public let level: Int
 
-    /// Wind direction
-    case windDirection = "wd"
+    /// The unit the value can be measured in
+    public let unit: String
 
-    /// Wind speed
-    case windSpeed = "ws"
-
-    /// Relative humidity
-    case relativeHumidity = "r"
-
-    /// Thunder probability
-    case thunderProbability = "tstm"
-
-    /// Mean value of total cloud cover
-    case cloudCoverTotal = "tcc_mean"
-
-    /// Mean value of low level cloud cover
-    case cloudCoverLow = "lcc_mean"
-
-    /// Mean value of medium level cloud cover
-    case cloudCoverMedium = "mcc_mean"
-
-    /// Mean value of high level cloud cover
-    case cloudCoverHigh = "hcc_mean"
-
-    /// Wind gust speed
-    case windGustSpeed = "gust"
-
-    /// Minimum precipitation intensity
-    case precipitationIntensityMin = "pmin"
-
-    /// Maximum precipitation intensity
-    case precipitationIntensityMax = "pmax"
-
-    /// Percent of precipitation in frozen form
-    case frozenPrecipitation = "spp"
-
-    /// Precipitation category
-    case precipitationCategory = "pcat"
-
-    /// Mean precipitation intensity
-    case precipitationIntensityMean = "pmean"
-
-    /// Median precipitation intensity
-    case precipitationIntensityMedian = "pmedian"
-
-    /// Weather symbol
-    case weatherSymbol = "wsymb2"
-
-    /// Unknown parameter
-    case unknown = ""
+    /// An array of raw parameter values
+    public let values: [Double]
 }
 
-/// An extension adding `Codable` protocol conformance to `Parameter`
 extension Parameter {
-    /// Initialize a new `Parameter` using `Decoder`
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-
-        guard let value = try? Parameter(rawValue: container.decode(String.self)) else {
-            self = .unknown
-            return
-        }
-        self = value
+    /// The first value of the raw parameter values
+    public var value: Double {
+        return self.values.first ?? 0
     }
 }
