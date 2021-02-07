@@ -25,61 +25,61 @@
 extension Parameter {
     public enum Name: String, Decodable {
         /// Air pressure
-        case airPressure = "msl"
+        case msl
 
         /// Air temperature
-        case airTemperature = "t"
+        case t
 
         /// Horizontal visibility
-        case visibility = "visibility"
+        case visibility
 
         /// Wind direction
-        case windDirection = "wd"
+        case wd
 
         /// Wind speed
-        case windSpeed = "ws"
+        case ws
 
         /// Relative humidity
-        case relativeHumidity = "r"
+        case r
 
         /// Thunder probability
-        case thunderProbability = "tstm"
+        case tstm
 
         /// Mean value of total cloud cover
-        case cloudCoverTotal = "tcc_mean"
+        case tcc_mean
 
         /// Mean value of low level cloud cover
-        case cloudCoverLow = "lcc_mean"
+        case lcc_mean
 
         /// Mean value of medium level cloud cover
-        case cloudCoverMedium = "mcc_mean"
+        case mcc_mean
 
         /// Mean value of high level cloud cover
-        case cloudCoverHigh = "hcc_mean"
+        case hcc_mean
 
         /// Wind gust speed
-        case windGustSpeed = "gust"
+        case gust
 
         /// Minimum precipitation intensity
-        case precipitationIntensityMin = "pmin"
+        case pmin
 
         /// Maximum precipitation intensity
-        case precipitationIntensityMax = "pmax"
+        case pmax
 
         /// Percent of precipitation in frozen form
-        case frozenPrecipitation = "spp"
+        case spp
 
         /// Precipitation category
-        case precipitationCategory = "pcat"
+        case pcat
 
         /// Mean precipitation intensity
-        case precipitationIntensityMean = "pmean"
+        case pmean
 
         /// Median precipitation intensity
-        case precipitationIntensityMedian = "pmedian"
+        case pmedian
 
         /// Weather symbol
-        case weatherSymbol = "wsymb2"
+        case wsymb2
 
         /// Unknown parameter
         case unknown = ""

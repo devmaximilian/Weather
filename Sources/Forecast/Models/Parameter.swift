@@ -41,10 +41,3 @@ public struct Parameter: Decodable {
     /// An array of raw parameter values
     public let values: [Double]
 }
-
-extension Parameter {
-    /// The first value of the raw parameter values
-    public var value: Double {
-        return self.values.first ?? 0
-    }
-}

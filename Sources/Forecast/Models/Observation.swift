@@ -49,14 +49,76 @@ extension Observation {
             forecast.validTime > now
         }
     }
-}
-
-extension Observation {
+    
     /// - Returns: The current `Forecast`
-    public func get(by date: Date) -> Forecast? {
+    public func get(by date: Date = .init()) -> Forecast? {
         return self.timeSeries.sorted(by: { $0.validTime < $1.validTime })
             .first { forecast -> Bool in
                 forecast.validTime >= date
             }
+    }
+}
+
+// MARK: Convenience
+
+extension Array {
+    func first<Value>(where keyPath: KeyPath<Element, Value>, _ value: Value) -> Element? where Value: Equatable {
+        self.first { element in
+            element[keyPath: keyPath] == value
+        }
+    }
+}
+
+extension Parameter {
+    fileprivate static var none: Parameter {
+        return Parameter(
+            name: .unknown,
+            levelType: .unknown,
+            level: 0,
+            unit: "n/a",
+            values: []
+        )
+    }
+    
+    fileprivate var value: Double {
+        return values.first ?? 0
+    }
+}
+
+extension Forecast {
+    fileprivate func parameter<T>(byName name: Parameter.Name, transform: (Parameter) -> T) -> T {
+        return transform(parameters.first(where: \.name, name) ?? .none)
+    }
+}
+
+extension Observation {
+    fileprivate var forecast: Forecast {
+        return self.get() ?? Forecast(validTime: .distantPast, parameters: [])
+    }
+    
+    fileprivate var forecasts: [Forecast] {
+        return self.timeSeries.sorted(by: { $0.validTime < $1.validTime })
+    }
+    
+    public func get<T>(_ keyPath: KeyPath<Parameter, T>, for name: Parameter.Name) -> T {
+        return forecast.parameter(byName: name) {
+            $0[keyPath: keyPath]
+        }
+    }
+    
+    public func getAll<T>(_ keyPath: KeyPath<Parameter, T>, for name: Parameter.Name) -> [T] {
+        return forecasts.map {
+            $0.parameter(byName: name) {
+                $0[keyPath: keyPath]
+            }
+        }
+    }
+    
+    public func getAll<T1, T2>(label labelKeyPath: KeyPath<Parameter, T1>, value valueKeyPath: KeyPath<Parameter, T2>, for name: Parameter.Name) -> [(label: T1, value: T2)] {
+        return forecasts.map {
+            $0.parameter(byName: name) {
+                ($0[keyPath: labelKeyPath], $0[keyPath: valueKeyPath])
+            }
+        }
     }
 }
