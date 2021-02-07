@@ -1,5 +1,5 @@
 //
-// Value.swift
+// Parameter.swift
 //
 // Copyright (c) 2019 Maximilian Wendel
 //

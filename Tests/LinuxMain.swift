@@ -1,7 +1,7 @@
 import XCTest
 
-import ForecastTests
+import WeatherTests
 
 var tests = [XCTestCaseEntry]()
-tests += ForecastTests.allTests()
+tests += WeatherTests.allTests()
 XCTMain(tests)

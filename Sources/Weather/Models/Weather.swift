@@ -22,11 +22,11 @@
 // SOFTWARE.
 //
 
-import struct Foundation.Date
+import Foundation
 
 
 /// An `Observation` is a collection of `Forecast` instances
-public struct Observation: Decodable {
+public struct Weather: Decodable {
     /// A timestamp for when the `Forecast` was approved
     private let approvedTime: Date
 
@@ -41,7 +41,7 @@ public struct Observation: Decodable {
 }
 
 /// An extension to house convenience attributes
-extension Observation {
+extension Weather {
     /// - Returns: Whether or not the forecast is valid for the current date
     public var isRelevant: Bool {
         let now = Date()
@@ -91,7 +91,7 @@ extension Forecast {
     }
 }
 
-extension Observation {
+extension Weather {
     fileprivate var forecast: Forecast {
         return self.get() ?? Forecast(validTime: .distantPast, parameters: [])
     }
@@ -120,5 +120,14 @@ extension Observation {
                 ($0[keyPath: labelKeyPath], $0[keyPath: valueKeyPath])
             }
         }
+    }
+}
+
+extension Weather {
+    public static func publisher(latitude: Double, longitude: Double) -> WeatherPublisher {
+        return WeatherPublisher(
+            latitude: latitude,
+            longitude: longitude
+        )
     }
 }
