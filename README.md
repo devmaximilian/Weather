@@ -7,7 +7,6 @@ This package is a wrapper for the PMP3g API provided by [SMHI](https://smhi.se).
 Add Weather o your `Package.swift` manifest.
 
 ```swift
-...
 /// Append the package to the list of dependencies
 dependencies: [
     .package(url: "https://github.com/devmaximilian/Weather.git", from: "1.0.0")
@@ -19,7 +18,6 @@ targets: [
         name: "MyProject",
         dependencies: ["Weather"])
 ]
-...
 ```
 
 Note that this is just a simple example demonstrating how the library can be used.
