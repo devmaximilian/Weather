@@ -31,7 +31,7 @@ extension Parameter {
         case t
 
         /// Horizontal visibility
-        case visibility
+        case vis
 
         /// Wind direction
         case wd
@@ -79,7 +79,7 @@ extension Parameter {
         case pmedian
 
         /// Weather symbol
-        case wsymb2
+        case wsymb2 = "Wsymb2"
 
         /// Unknown parameter
         case unknown = ""
