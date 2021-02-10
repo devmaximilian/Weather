@@ -23,7 +23,7 @@
 //
 
 extension Parameter {
-    public enum Name: String, Decodable {
+    public enum Name: String, CaseIterable, Decodable {
         /// Air pressure
         case msl
 
@@ -80,16 +80,17 @@ extension Parameter {
 
         /// Weather symbol
         case wsymb2 = "Wsymb2"
-
-        /// Unknown parameter
-        case unknown = ""
         
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             
             guard let name = try? Name(rawValue: container.decode(String.self)) else {
-                self = .unknown
-                return
+                throw DecodingError.dataCorrupted(
+                    DecodingError.Context(
+                        codingPath: container.codingPath,
+                        debugDescription: "Unknown parameter name!"
+                    )
+                )
             }
             self = name
         }

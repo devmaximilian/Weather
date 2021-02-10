@@ -28,13 +28,13 @@ import Foundation
 /// An `Observation` is a collection of `Forecast` instances
 public struct Weather: Decodable {
     /// A timestamp for when the `Forecast` was approved
-    private let approvedTime: Date
+    public let approvedTime: Date
 
     /// A timestamp for when the `Forecast` was created or updated
-    private let referenceTime: Date
+    public let referenceTime: Date
 
     /// A `Geometry` represenation for where the `Forecast` is valid
-    private let geometry: Geometry
+    public let geometry: Geometry
 
     /// An array of `Forecast` instances that reflect the overall `Forecast` over time
     private let timeSeries: [Forecast]
@@ -70,16 +70,6 @@ extension Array {
 }
 
 extension Parameter {
-    fileprivate static var none: Parameter {
-        return Parameter(
-            name: .unknown,
-            levelType: .unknown,
-            level: 0,
-            unit: "n/a",
-            values: []
-        )
-    }
-    
     fileprivate var value: Double {
         return values.first ?? 0
     }
@@ -87,7 +77,7 @@ extension Parameter {
 
 extension Forecast {
     fileprivate func parameter<T>(byName name: Parameter.Name, transform: (Parameter) -> T) -> T {
-        return transform(parameters.first(where: \.name, name) ?? .none)
+        return transform(parameters.first(where: \.name, name).unsafelyUnwrapped)
     }
 }
 
@@ -106,6 +96,10 @@ extension Weather {
         }
     }
     
+    public func get(_ name: Parameter.Name) -> Parameter {
+        return forecast.parameter(byName: name) { $0 }
+    }
+    
     public func getAll<T>(_ keyPath: KeyPath<Parameter, T>, for name: Parameter.Name) -> [T] {
         return forecasts.map {
             $0.parameter(byName: name) {
@@ -114,11 +108,9 @@ extension Weather {
         }
     }
     
-    public func getAll<T1, T2>(label labelKeyPath: KeyPath<Parameter, T1>, value valueKeyPath: KeyPath<Parameter, T2>, for name: Parameter.Name) -> [(label: T1, value: T2)] {
+    public func getAll(_ name: Parameter.Name) -> [(validTime: Date, parameter: Parameter)] {
         return forecasts.map {
-            $0.parameter(byName: name) {
-                ($0[keyPath: labelKeyPath], $0[keyPath: valueKeyPath])
-            }
+            ($0.validTime, $0.parameter(byName: name) { $0 })
         }
     }
 }
