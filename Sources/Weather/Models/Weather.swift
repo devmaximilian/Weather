@@ -44,10 +44,7 @@ public struct Weather: Decodable {
 extension Weather {
     /// - Returns: Whether or not any relevant forecasts are available
     public var isRelevant: Bool {
-        let now = Date()
-        return timeSeries.contains { forecast -> Bool in
-            forecast.validTime > now
-        }
+        return forecasts.count > 0
     }
     
     public var forecast: Forecast? {
@@ -58,10 +55,17 @@ extension Weather {
         return forecast.unsafelyUnwrapped
     }
     
+    public var forecasts: [Forecast] {
+        let now = Date()
+        return timeSeries.sorted(by: { $0.validTime < $1.validTime })
+            .filter { forecast -> Bool in
+                forecast.validTime >= now
+            }
+    }
+    
     /// - Returns: The most relevant `Forecast`
     public func get(by date: Date = .init()) -> Forecast? {
-        return timeSeries.sorted(by: { $0.validTime < $1.validTime })
-            .first { forecast -> Bool in
+        return forecasts.first { forecast -> Bool in
                 forecast.validTime >= date
             }
     }
