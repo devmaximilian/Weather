@@ -41,3 +41,9 @@ public struct Parameter: Decodable {
     /// An array of raw parameter values
     public let values: [Double]
 }
+
+extension Parameter {
+    public var value: Double {
+        return values.first ?? 0
+    }
+}

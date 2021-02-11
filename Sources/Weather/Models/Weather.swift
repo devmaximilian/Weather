@@ -42,76 +42,28 @@ public struct Weather: Decodable {
 
 /// An extension to house convenience attributes
 extension Weather {
-    /// - Returns: Whether or not the forecast is valid for the current date
+    /// - Returns: Whether or not any relevant forecasts are available
     public var isRelevant: Bool {
         let now = Date()
-        return self.timeSeries.contains { forecast -> Bool in
+        return timeSeries.contains { forecast -> Bool in
             forecast.validTime > now
         }
     }
     
-    /// - Returns: The current `Forecast`
+    public var forecast: Forecast? {
+        return get()
+    }
+    
+    public var unsafeForecast: Forecast {
+        return forecast.unsafelyUnwrapped
+    }
+    
+    /// - Returns: The most relevant `Forecast`
     public func get(by date: Date = .init()) -> Forecast? {
-        return self.timeSeries.sorted(by: { $0.validTime < $1.validTime })
+        return timeSeries.sorted(by: { $0.validTime < $1.validTime })
             .first { forecast -> Bool in
                 forecast.validTime >= date
             }
-    }
-}
-
-// MARK: Convenience
-
-extension Array {
-    func first<Value>(where keyPath: KeyPath<Element, Value>, _ value: Value) -> Element? where Value: Equatable {
-        self.first { element in
-            element[keyPath: keyPath] == value
-        }
-    }
-}
-
-extension Parameter {
-    fileprivate var value: Double {
-        return values.first ?? 0
-    }
-}
-
-extension Forecast {
-    fileprivate func parameter<T>(byName name: Parameter.Name, transform: (Parameter) -> T) -> T {
-        return transform(parameters.first(where: \.name, name).unsafelyUnwrapped)
-    }
-}
-
-extension Weather {
-    fileprivate var forecast: Forecast {
-        return self.get() ?? Forecast(validTime: .distantPast, parameters: [])
-    }
-    
-    fileprivate var forecasts: [Forecast] {
-        return self.timeSeries.sorted(by: { $0.validTime < $1.validTime })
-    }
-    
-    public func get<T>(_ keyPath: KeyPath<Parameter, T>, for name: Parameter.Name) -> T {
-        return forecast.parameter(byName: name) {
-            $0[keyPath: keyPath]
-        }
-    }
-    
-    public func get(_ name: Parameter.Name) -> Parameter {
-        return forecast.parameter(byName: name) { $0 }
-    }
-    
-    public func getAll<T>(_ keyPath: KeyPath<Parameter, T>, for name: Parameter.Name) -> [T] {
-        return forecasts.map {
-            $0.parameter(byName: name) {
-                $0[keyPath: keyPath]
-            }
-        }
-    }
-    
-    public func getAll(_ name: Parameter.Name) -> [(validTime: Date, parameter: Parameter)] {
-        return forecasts.map {
-            ($0.validTime, $0.parameter(byName: name) { $0 })
-        }
     }
 }
 

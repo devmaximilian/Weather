@@ -25,20 +25,27 @@
 import struct Foundation.Date
 
 
-/// A `Forecast` is a collection of `Value`s for a set of `Parameter`s
+/// A `Forecast` is a collection of `Parameter`s
 public struct Forecast: Decodable {
     /// A timestamp for when the `Forecast` is valid
-    internal let validTime: Date
+    public let validTime: Date
 
     /// An array of `Value` instances
     internal let parameters: [Parameter]
 
+    /// Get a `Parameter` by name.
+    ///
+    /// - Parameter parameter: The `Parameter` to get `Value` for
+    public func get(_ name: Parameter.Name) -> Parameter {
+        return self.parameters.first { (value) -> Bool in
+            value.name == name
+        }.unsafelyUnwrapped
+    }
+    
     /// Get `Value` for a `Parameter`
     ///
     /// - Parameter parameter: The `Parameter` to get `Value` for
-    internal func get(_ name: Parameter.Name) -> Parameter? {
-        return self.parameters.first { (value) -> Bool in
-            value.name == name
-        }
+    public func get<T>(_ name: Parameter.Name, _ keyPath: KeyPath<Parameter, T>) -> T {
+        return self.get(name)[keyPath: keyPath]
     }
 }
