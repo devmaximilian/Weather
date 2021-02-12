@@ -49,3 +49,24 @@ public struct Forecast: Decodable {
         return self.get(name)[keyPath: keyPath]
     }
 }
+
+#if DEBUG
+extension Forecast {
+    public static var example: Forecast {
+        return Forecast(
+            validTime: Date(),
+            parameters: [
+                Parameter(
+                    name: .t,
+                    levelType: .unknown,
+                    level: 0,
+                    unit: "Cel",
+                    values: [
+                        Double.random(in: -10...10)
+                    ]
+                )
+            ]
+        )
+    }
+}
+#endif
