@@ -56,7 +56,7 @@ extension Weather {
     }
     
     public var forecasts: [Forecast] {
-        let now = Date()
+        let now: Date = .oneHourAgo
         return timeSeries.sorted(by: { $0.validTime < $1.validTime })
             .filter { forecast -> Bool in
                 forecast.validTime >= now
@@ -64,10 +64,17 @@ extension Weather {
     }
     
     /// - Returns: The most relevant `Forecast`
-    public func get(by date: Date = .init(timeIntervalSinceNow: 60 * 60 * -1)) -> Forecast? {
+    public func get(by date: Date? = nil) -> Forecast? {
+        let date: Date = date ?? .oneHourAgo
         return forecasts.first { forecast -> Bool in
                 forecast.validTime >= date
             }
+    }
+}
+
+extension Date {
+    fileprivate static var oneHourAgo: Date {
+        return Date(timeIntervalSinceNow: 60 * 60 * -1)
     }
 }
 
