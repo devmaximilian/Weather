@@ -64,7 +64,7 @@ extension Weather {
     }
     
     /// - Returns: The most relevant `Forecast`
-    public func get(by date: Date = .init()) -> Forecast? {
+    public func get(by date: Date = .init(timeIntervalSinceNow: 60 * 60 * -1)) -> Forecast? {
         return forecasts.first { forecast -> Bool in
                 forecast.validTime >= date
             }
